@@ -31,6 +31,7 @@
 #
 
 # @lc code=start
+from typing import List
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         d = {}
@@ -41,5 +42,7 @@ class Solution:
                 # return [78]
             d[nums[j]] = j
         return []              
+
+print(Solution().twoSum([3,4,6,2], 9))
 # @lc code=end
 
