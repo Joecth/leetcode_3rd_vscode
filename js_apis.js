@@ -43,10 +43,19 @@ var apis = function(nums, target) {
     }
     
     const sum = arr => arr.reduce((a,b) => a + b, 0);
-
+    const nums = [1, 2, 3]
+    Math.min(...nums)    // 1
+    Math.max(...nums)    // 3
     function reverseString(str){ 
         return str.split("").reverse().join("");
     }
+
+    function convertSetToArray(setOfStr) {
+        return [...setOfStr].map((v) => v.split(","));
+    }
+
 };
+
+
 // @lc code=end
 
