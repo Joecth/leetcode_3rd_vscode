@@ -1,5 +1,5 @@
 /*
- * @lc app=leetcode id=1 lang=javascript
+ * @lc app=leetcode id=1 lang=golang
  *
  * [1] Two Sum
  *
@@ -31,21 +31,26 @@
  */
 
 // @lc code=start
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-var twoSum = function(nums, target) {
-    d = new Map();
-    for (let i = 0; i <= nums.length; i++){
-        let diff = target - nums[i];
-        if (d.has(diff)){
-            return [d.get(diff), i]
+// package main
+// package main
+// import "fmt"
+func twoSum(nums []int, target int) []int {
+    lookup := make(map[int]int)
+    for i, v := range nums {
+        j, ok := lookup[-v]
+        lookup[v - target] = i
+        if ok {
+			fmt.Printf("here")
+            return []int{j, i}
         }
-        d.set(nums[i], i);
     }
-};
-console.log(twoSum([2,3], 5));
+    return []int{}
+}
+func main() {
+	fmt.Printf("heo, world\n")   
+	balance := []int {1000, 2, 3, 17, 50}
+	twoSum(balance, 5)
+}
+// twoSum([2,3], 5)
 // @lc code=end
 
