@@ -37,8 +37,29 @@
 // @lc code=start
 class Solution {
     public int majorityElement(int[] nums) {
+        // Arrays.sort(nums);
+        HashMap<Integer, Integer> d = new HashMap<Integer, Integer>();
+        // Map<Integer, Integer> myMap = new HashMap<Integer, Integer>();
+        // //Hashtable<Integer, Integer> myMap = new Hashtable<Integer, Integer>();
+
         
-    }
+        int ans = 0;
+        for (int i=0; i<nums.length; i++){
+        // for (int num: nums) {
+            if (d.containsKey(nums[i])){
+                d.put(nums[i], d.get(nums[i])+1);
+            }
+            else{
+                d.put(nums[i], 0);
+            }
+
+            if (Math.floor(d.get(nums[i])) >= nums.length/2){
+                ans = nums[i];
+                break;
+            }
+        }
+        return ans;
+    }        
 }
 // @lc code=end
 
