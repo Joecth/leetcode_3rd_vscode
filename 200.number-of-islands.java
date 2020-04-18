@@ -69,5 +69,51 @@ class Solution {
         helper(r, c+1, grid);
     }
 }
+
+/**
+ * Nice BFS in Java without using CONTAINER:
+ * class Solution {
+    public int numIslands(char[][] grid) {
+        Queue<Integer> queue = new LinkedList<Integer>(); 
+        int result =0;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]=='1'){
+                    grid[i][j] = '0';
+                    int code = i*grid[0].length+j;
+                    queue.add(code);
+                    result += bfs(grid,queue);
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public int bfs(char[][] grid,Queue<Integer> queue){
+        int[] dr = {-1,0,1,0};
+        int[] dk = {0,-1,0,1};
+        
+        while(!queue.isEmpty()){
+            int code = queue.poll();
+            int r=code/grid[0].length;
+            int c=code%grid[0].length;
+            
+            for(int i=0;i<=3;i++){
+                int nr = r + dr[i];
+                int nc = c + dk[i];
+                if(nr>=0 && nr<grid.length && nc>=0 && nc<grid[0].length && grid[nr][nc]=='1'){
+                    int ncode = nr*grid[0].length+nc;
+                    grid[nr][nc] = '0';
+                    queue.add(ncode);
+                }
+            }
+        }
+        
+        return 1;
+    }
+}
+ */
+
 // @lc code=end
 
