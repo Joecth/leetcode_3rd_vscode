@@ -70,6 +70,8 @@ class Solution:
         root.left = None
         self.prev = root
         # return prev
-        
+
+# Time Complexity: O(n) since we must visit all nodes.
+# Space Complexity: O(log n) on balanced tree. O(n) otherwise.
 # @lc code=end
 
