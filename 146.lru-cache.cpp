@@ -75,11 +75,14 @@ public:
     void put(int key, int value) {
         if (d.find(key) != d.end()){
             db_ll.erase(d[key]);    // O(1)
-            d.erase(key);
+            // d.erase(key);    // No need
             
             // db_ll.push_back(make_pair(key, value));
             db_ll.push_front(make_pair(key, value));
             d[key] = db_ll.begin();
+            
+            //TODO: splice() usage: https://blog.csdn.net/qq_41909314/article/details/90575034?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3 
+            // thus,             db_ll.splice(db_ll.begin(), db_ll, d[key]); is also OK, P.S. d is the "Cache"
         }
         else {
             if (db_ll.size() >= cap){
