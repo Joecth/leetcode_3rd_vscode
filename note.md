@@ -42,4 +42,11 @@ date: 2019-04-22
 |                         |                                                              | db_ll.erase(d[key])                                          |                                                              |                                                              |
 | **APIs**                | from collections import Counter<br />Counter(l)              |                                                              | _.countBy(l)                                                 |                                                              |
 |                         | max                                                          |                                                              | Math.max                                                     |                                                              |
+| **Node**                | if not head                                                  | if (!head); if (nullputr == head)                            | if (head == null)                                            | if (head == null)                                            |
 
+
+
+## Special issues:
+
+- Java & js
+- <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gegmwb46qaj312a0u0qb1.jpg" alt="image-20200504191823941" style="zoom:67%;" />
