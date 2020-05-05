@@ -52,14 +52,31 @@
 
 // * ⁠         1
 // * ⁠        / \
-// * ⁠       2   3
+// * ⁠       2(2) 3(1)
 // * ⁠      / \     
-// * ⁠     4   5    
+// * ⁠     4(1) 5(1)    
 /**
  * @param {TreeNode} root
  * @return {number}
  */
+
 var diameterOfBinaryTree = function(root) {
+    if (!root) return 0;
+    let ans = 0;
+    helper(root);
+    return ans;
+
+    function helper(root){
+        if (!root) return 0
+        let L = helper(root.left)
+        let R = helper(root.right)
+        ans = Math.max(L+R, ans)
+
+        return Math.max(L, R) + 1
+    }
+};
+
+var diameterOfBinaryTree_old = function(root) {
     
     function height(root){
         if (root == null) return 0;

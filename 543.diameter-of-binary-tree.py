@@ -62,11 +62,25 @@ Diameter: summation of left height and right height
 
 class Solution:
     def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        
         # self.ans = 0
         self.g_max = 0
-        self.helper(root)
+        self.dfs(root)
+        # self.helper(root)
         return self.g_max
     
+    def dfs(self, root):
+        if not root:
+            return 0
+        # if not root.left and not root.right:
+        #     return 0
+
+        L_dia = self.dfs(root.left)
+        R_dia = self.dfs(root.right)
+        self.g_max = max(self.g_max, L_dia+R_dia)
+        return max(L_dia, R_dia) + 1    # CAUTIOUS! 這個不是答案，上一行才是
+
+
     def helper(self, root):
         if not root:
             return
