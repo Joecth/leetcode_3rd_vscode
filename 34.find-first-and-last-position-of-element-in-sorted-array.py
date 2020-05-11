@@ -50,7 +50,43 @@ return (-1, -1)
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         # return self.helper_O_N(nums, target)
-        return self.helper_O_lgN(nums, target)
+        # return self.helper_O_lgN(nums, target)
+        if not nums:
+            return [-1, -1]
+        
+        start, end = 0, len(nums)-1
+        while start+1 < end:
+            mid = start + (end-start)//2
+            if nums[mid] >= target:
+                end = mid
+            else:
+                start = mid
+        
+        if nums[start] == target:
+            first = start
+        elif nums[end] == target:
+            first = end
+        else:
+            return [-1, -1]
+            
+        
+        start, end = 0, len(nums)-1
+        while start+1 < end:
+            mid = start + (end-start)//2
+            if nums[mid] > target:
+                end = mid
+            else:
+                start = mid
+        
+        if nums[end] == target:
+            last = end
+        elif nums[start] == target:
+            last = start
+            
+        # print(start, end)
+        return [first, last]
+
+
 
     def helper_O_N(self, nums, target):
         if not nums:
