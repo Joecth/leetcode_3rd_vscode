@@ -67,7 +67,7 @@ class Solution:
         self.g_max = 0
         self.dfs(root)
         # self.helper(root)
-        return self.g_max
+        return self.g_max # update on 05/13
     
     def dfs(self, root):
         if not root:
