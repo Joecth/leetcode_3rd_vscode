@@ -3,12 +3,15 @@ layout: post
 categories: Languages
 tag: []
 date: 2019-04-22
-
+Author: Joe
 ---
 
 #### Hard, to solve: 
     - 301.remove-invalidparantheses TLE for enumeration w/ backtracking, 
     - 140.word-break-ii a)MLE w/ case "a"*n & b)Trie method (Trie not faster for single query, but for multi query in 472.)
+    - SegmentTree
+    - BinaryIndexedTree
+    - Letter Combinatino of A Phone Number
 
 |                         | Python3                                                      | Cpp                                                          | JS                                                           | Java                                                         |
 | ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -27,9 +30,10 @@ date: 2019-04-22
 | **Ordered_dict**        | self.od.popitem(last=False)<br />https://www.pythonf.cn/read/89970<br />https://gist.github.com/joequery/12332f410a05e6c7c949 |                                                              | d = new Map(); APIs↑↑ //ref: https://stackoverflow.com/questions/2798893/ordered-hash-in-javascript | LinkedHashMap<Integer, Integer> d;<br />this.d = new LinkedHashMap<>(); |
 |                         | first = next(iter(self.od))                                  |                                                              |                                                              | Integer first = this.d.keySet().iterator().next();           |
 | **queue**               | from collections import deque                                | include  <deque>                                             |                                                              |                                                              |
-|                         | deque();                                                     | deque<Node*>                                                 | let Q = [];                                                  | Queue<Node> Q = new LinkedList(); //LinkedList<Node> Q = new LinkedList<Node>(); |
-|                         | Q.append(cur); v=Q.popleft()                                 | Q.push_back(cur); v=Q.front(),Q.pop_front()                  | Q.push(cur); v=Q.shift()                                     | Q.add(nbr_O);//Q.push(nbr_O); Q.poll();                      |
+|                         | deque();                                                     | deque<Node*>                                                 | let Q = [];                                                  | Queue<Node> Q = new LinkedList(); //LinkedList<Node> Q = new LinkedList<Node>(); //雙向 |
+|                         | Q.append(cur); v=Q.popleft()                                 | Q.push_back(cur); v=Q.front(),Q.pop_front()                  | Q.push(cur); v=Q.shift(); // O(n)                            | Q.add(nbr_O);//Q.push(nbr_O); Q.poll();                      |
 |                         | while d                                                      | while (!Q.empty())                                           | while (Q.length != 0)                                        | while (!Q.isEmpty())                                         |
+| **deque**               |                                                              |                                                              |                                                              | ArrayDeque雙向實現了DEque的interface                         |
 | **vector**              |                                                              | include <vector>                                             |                                                              |                                                              |
 |                         | self.res = []                                                | vector<vector<int>> result;                                  | res = [];                                                    | List<List<Integer>> res = new ArrayList<List<Integer>>();    |
 |                         | item.append(nums[idx])                                       | item.push_back(nums[idx]);                                   | item.push(nums[idx]);                                        | item.add(nums[idx]);                                         |
@@ -37,6 +41,7 @@ date: 2019-04-22
 |                         |                                                              |                                                              | l.length; // 注意！跟dict不同，這邊是 length                 |                                                              |
 |                         |                                                              | for                                                          | for (***let*** i=0; i<l.length; i++)                         |                                                              |
 |                         | l = [False] * 3                                              | vector<bool> dp(3, false);                                   | const dp = new Array(3).fill(false);                         | List<Boolean> dp = new ArrayList(Collections.nCopies(s.length(), false)); |
+|                         |                                                              |                                                              |                                                              | int[] nums;, nums.length                                     |
 | **Doublely LinkedList** |                                                              | **std::list**<br />**List** stores elements at non contiguous memory location i.e. it internally uses a doubly linked list i.e. |                                                              |                                                              |
 |                         |                                                              | back(); front();                                             |                                                              |                                                              |
 |                         |                                                              | pop_back(); pop_front();                                     |                                                              |                                                              |
@@ -49,6 +54,8 @@ date: 2019-04-22
 | **Set**                 | ws = set(wD)                                                 | unordered_set<string> ws;<br/>        <br/>        for (auto s: wordDict){<br/>            ws.insert(s);<br/>        } | let ws = new Set(wD)                                         | HashSet<String> ws = new HashSet(wordDict);                  |
 |                         | token in ws                                                  | ws.find(token) != ws.end()                                   | ws.has(token)                                                | ws.contains(token)                                           |
 | **MAX**                 | float('-inf')                                                | INT_MIN;                                                     | -Number.MAX_VALUE;                                           | Integer.MIN_VALUE;                                           |
+| **2D Init**             | [[0 for j in range(n)] for i in range(m)]                    |                                                              |                                                              | [...Array(3)].map(x=>Array(5).fill(0))                       |
+| **1D sort**             | l.sort(reverse=True)                                         |                                                              |                                                              |                                                              |
 | **Node**                | if not head                                                  | if (!head); if (nullputr == head)                            | if (!root); if (head == null)                                | if (head == null)                                            |
 
 

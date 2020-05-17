@@ -59,9 +59,32 @@ dp 1 0 0 0 0 0
 # @lc code=start
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        ws = set(wordDict)
+        
+        max_len = 0
+        for word in ws:
+            max_len = max(max_len, len(word))
+        
+        dp = [False] * (len(s)+1)
+        
+        dp[0] = True
+        for end in range(1, len(dp)):
+            start = end-1
+            # while start >=0: OPTIMIZATION↓↓　
+            while start >=0 and start >= end-max_len:
+                if s[start:end] in ws and dp[start]:
+                    dp[end] = True
+                    break
+                start -= 1
+        print(dp)
+        return dp[-1]
+        
+    def wordBreak_old(self, s: str, wordDict: List[str]) -> bool:
         if not s:
             return True
-
+        if not wordDict:
+            return False
+        
         ws = set(wordDict) # wordSet
         dp = [False] * len(s)   # means states
         # abcde
@@ -90,7 +113,7 @@ class Solution:
             """
             while start >= 0:
                 # if s[start:i+1] in ws and dp[start-1]:
-                if dp[start-1] and s[start:i+1] in ws:  # CAUTIOUS! s[start:i+1] in ws 雖一樣是 hash 查詢，但因是 str 所以比 dp[start-1] 來得久！！
+                if dp[start-1] and s[start:i+1] in ws:
                     dp[i] = True
                     break
                 start -= 1
