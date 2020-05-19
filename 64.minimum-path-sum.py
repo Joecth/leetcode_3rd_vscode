@@ -49,6 +49,45 @@
 
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
+        # return self.O_MxN(grid)
+        return self.O_N(grid)
+    
+    def O_N(self, grid):
+        if not grid or not grid[0]:
+            return 0
+        m, n = len(grid), len(grid[0])
+        dp = [0 for j in range(n)]
+        # dp[0] = grid
+        for i in range(m):
+            for j in range(n):
+                # dp[j] = 
+                if i == 0 and j == 0:
+                    dp[j] = grid[i][j]
+                elif i == 0:
+                    dp[j] = dp[j-1] + grid[i][j]
+                elif j == 0:
+                    dp[j] = dp[j] + grid[i][j]
+                else:
+                    dp[j] = min(dp[j], dp[j-1]) + grid[i][j]
+        return dp[-1]
+    
+    def O_MxN(self, grid):
+        if not grid or not grid[0]:
+            return 0
+        dp = [[0 for j in range(len(grid[0]))] for i in range(len(grid))]
+        for i in range(len(dp)):
+            for j in range(len(dp[0])):
+                if i == 0 and j == 0:
+                    dp[i][j] = grid[i][j]
+                elif i == 0:
+                    dp[i][j] = dp[i][j-1] + grid[i][j]
+                elif j == 0:
+                    dp[i][j] = dp[i-1][j] + grid[i][j]
+                else:
+                    dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
+        return dp[-1][-1]
+        
+    def minPathSum_old(self, grid: List[List[int]]) -> int:
         if not grid or not grid[0]: return 0
         dp = [[0 for j in range(len(grid[0])+1)] for i in range(len(grid)+1)]
         
@@ -62,6 +101,6 @@ class Solution:
                     dp[i][j] = min(dp[i][j-1], dp[i-1][j]) + grid[i-1][j-1]
         # print(dp)
         return dp[-1][-1]
-        
+
 # @lc code=end
 
