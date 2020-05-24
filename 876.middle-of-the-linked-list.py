@@ -73,8 +73,77 @@
         f 
         if not f.next.next, return s.next
 '''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+'''
+1 2 3 4 5 
+    s 
+        f
+        if not f.next, return s
+        
+1 2 3 4 5 6
+    s
+        f 
+        if not f.next.next, return s.next
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+'''
+1 2 3 4 5 
+    s 
+        f
+        if not f.next, return s
+        
+1 2 3 4 5 6
+    s
+        f 
+        if not f.next.next, return s.next
+'''
 class Solution:
     def middleNode(self, head: ListNode) -> ListNode:
+        # return self.helper(head)
+        return self.helper_cleaner(head)
+    
+    def helper_cleaner(self, head):
+        if not head: return head
+        
+        dummy = ListNode(0)
+        fast = slow = dummy.next = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        
+        # if fast:   # count % 2 == 0
+        #     return slow.next
+        # else:
+        #     return slow    
+        return slow
+    
+    def helper(self, head: ListNode) -> ListNode:
+        if not head: return head
+        
+        cur = dummy = ListNode(0)
+        dummy.next = head
+        slow = fast = cur
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        
+        if fast:   # count % 2 == 0
+            return slow.next
+        else:
+            return slow
+        
+    def middleNode_old(self, head: ListNode) -> ListNode:
+        
         s = f = head
         while f:
             if not f.next:
@@ -82,6 +151,6 @@ class Solution:
             if not f.next.next:
                 return s.next
             f = f.next.next
-            s = s.next        
+            s = s.next
 # @lc code=end
 
