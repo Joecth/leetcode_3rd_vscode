@@ -39,7 +39,51 @@
 # @lc code=start
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        return self.helper(nums)
+        # return self.helper(nums)
+        return self.helper_B_search(nums)
+
+    
+    def helper_B_search(self, nums):
+        if not nums: return 0
+        n = len(nums)
+        
+        
+        # dp = [0 for _ in range(n+1)]
+        # LIS for length equals to ith
+        dp = []
+        
+        for i in range(n):
+            if not dp or nums[i] > dp[-1]:
+                dp.append(nums[i])
+                # continue
+            else:
+                if len(dp) <= 10:   # Optimization according to len(dp)
+                    for j in range(len(dp)):
+                        if nums[i] <= dp[j]:
+                            dp[j] = nums[i]
+                            break
+                else:              
+                    target = nums[i]
+                    start, end = 0, len(dp)-1
+                    while start + 1 < end:
+                        mid = start + (end-start)//2
+                        if dp[mid] == target:
+                            # dp[mid] = target
+                            # break
+                            start = mid
+                        elif dp[mid] < target:
+                            start = mid
+                        else:
+                            end = mid
+                    if dp[start] >= target:
+                        dp[start] = target                            
+                    elif dp[end] >= target:
+                        dp[end] = target        
+                    
+            # print(dp)
+                        
+        return len(dp)    
+    
     
     def helper(self, nums):
         if not nums: return 0
@@ -60,6 +104,6 @@ class Solution:
                         dp[j] = nums[i]
                         break
         return len(dp)
-            
+    
 # @lc code=end
 
