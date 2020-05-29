@@ -34,37 +34,37 @@
 # @lc code=start
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        def helper_O_k(nums):
-            if len(nums) < 2:
-                return nums[0]
-
-            # dp = [0] * len(nums)
-            dp0 = nums[0]
-            dp1 = max(dp0+nums[1], nums[1])
-            g_max = max(dp0, dp1)
-            
-            for i in range(2, len(nums)):   # TODO: start from 1 to make this faster 
-                # dp0, dp1 = max(), dp0
-                # dp2 = max(dp1 + nums[2], nums[2])
-                tmp = max(dp1 + nums[i], nums[i])
-                dp1 = tmp
-                g_max = max(dp1, g_max)
-                
-            return g_max
-            
-        def helper_O_N(nums):
-            if len(nums) < 2:
-                return nums[0]
-
-            dp = [0] * len(nums)
-            dp[0] = nums[0]
-            dp[1] = max(dp[0]+nums[1], nums[1])
-            g_max = max(dp[0], dp[1])
-
-            for i in range(2, len(nums)):
-                dp[i] = max(dp[i-1]+nums[i], nums[i])
-                g_max = max(g_max, dp[i])
-            return g_max
-        return helper_O_k(nums)        
+        return self.O_1(nums)
+        return self.O_N(nums)
+    
+    def O_1(self, nums):
+        n = len(nums)
+        if n == 0: return 0
+        ans = dp = nums[0]  # dp: cur_max; ans: global max
+        for i in range(1, n):
+            # dp = max(dp, dp+nums[i])  # WRONG CONCEPT
+            dp = max(dp+nums[i], nums[i])
+            ans = max(ans, dp)
+        return ans
+        
+    def O_N(self, nums):
+        n = len(nums)
+        if n == 0: return 0
+        # maximum subarr, with ith not included
+        dp = [0 for i in range(n+1)]
+        ans = dp[0] = nums[0]
+        """ WRONG
+        dp[1] = max(dp[0], dp[0]+nums[1], nums[1])
+        dp[2] = max(dp[1], dp[1]+nums[2], nums[2])
+        """
+        """ CORRECT
+        dp[1] = max(dp[0]+nums[1], nums[1])
+        dp[2] = max(dp[1]+nums[2], nums[2])
+        """
+        for i in range(1, n):
+            dp[i] = max(dp[i-1]+nums[i], nums[i])
+            ans = max(ans, dp[i])
+        
+        return ans
 # @lc code=end
 

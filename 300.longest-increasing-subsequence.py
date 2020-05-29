@@ -39,11 +39,28 @@
 # @lc code=start
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums: return 0
         # return self.helper(nums)
-        return self.helper_B_search(nums)
+        # return self.helper_B_search_NLogN(nums)
+        return self.O_NN_BF(nums)
+    
+    def O_NN_BF(self, nums):
+        n = len(nums)
+        dp = [0 for _ in range(n)]
+        
+        ans = 1
+        for i in range(n):
+            dp[i] = 1
+            for j in range(i):
+                if nums[j] < nums[i] and dp[j]+1 >= dp[i]:
+                    dp[i] = dp[j] + 1
+                
+            if dp[i] > ans:
+                ans = dp[i]
+        return ans
 
     
-    def helper_B_search(self, nums):
+    def helper_B_search_NLogN(self, nums):
         if not nums: return 0
         n = len(nums)
         
@@ -104,6 +121,6 @@ class Solution:
                         dp[j] = nums[i]
                         break
         return len(dp)
-    
+        
 # @lc code=end
 

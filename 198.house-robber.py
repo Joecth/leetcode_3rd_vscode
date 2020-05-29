@@ -47,7 +47,55 @@
 # @lc code=start
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        return self.O_N(nums)
+        if not nums : return 0
+        if len(nums) == 1: return nums[0]
+        # return self.O_1(nums)
+        # return self.O_SeqDP_2xN(nums)
+        return self.O_SeqDP_2x1_arr(nums)
+    
+    def O_SeqDP_2x1_arr(self, nums):
+        n = len(nums)
+        
+        """
+        dp[0]: no-rob
+        dp[1]: rob
+        """
+        dp = [0 for i in range(2)]
+        dp[1] = nums[0]
+        
+        for j in range(1, n):
+            prev_norob = dp[0]
+            dp[0] = max(dp[0], dp[1])
+            dp[1] = prev_norob + nums[j]
+            # print(dp)
+        return max(dp)
+        
+    
+    def O_SeqDP_2x1(self, nums):
+        n = len(nums)
+        norob = 0
+        rob = 0
+        
+        for j in range(n):
+            prev_norob = norob
+            norob = max(norob, rob)
+            rob = prev_norob + nums[j]
+        return max(norob, rob)
+    
+    def O_SeqDP_2xN(self, nums):
+        """
+        # dp[0][j] up to jth house, no-rob, max profit
+        # dp[1][j] up to jth house, rob, max profit
+        """
+        n = len(nums)
+        dp = [[0] * n for i in range(2)]
+        # print(dp)
+        
+        for j in range(n):
+            dp[0][j] = max(dp[0][j-1], dp[1][j-1])
+            dp[1][j] = dp[0][j-1] + nums[j]
+        # print(dp)            
+        return max(dp[-1])
     
     def O_1(self, nums):
         n = len(nums)
@@ -101,6 +149,7 @@ class Solution:
             dp[i] = max(dp[i-2]+nums[i], dp[i-1])
             
         return dp[i]
+            
                     
 # @lc code=end
 
