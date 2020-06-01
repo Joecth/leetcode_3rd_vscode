@@ -62,10 +62,38 @@ class Solution:
         candidates.sort()
         if not candidates: return []
         self.res = []
-        self.helper(candidates, target, 0, 0, [])
-        # print(self.res)
+        # self.helper(candidates, target, 0, 0, [])
+        self.helper_2way(candidates, target, 0, [])
         return self.res
     
+    def helper_2way(self, nums, target, idx, item):
+        if len(nums) == idx:
+            return 
+        
+        if target == 0:
+            self.res.append(item.copy())
+            return
+        
+        # [2,2,3], [7]
+        # [2,2,3], [2,3,2], [3,2,2], [7]
+        for i in range(idx, len(nums)): # idx: depth of bactktracking
+            if target > 0:  #　TODO: SORT first is better!
+                target -= nums[i]
+                item.append(nums[i])
+                # self.helper_2way(nums, target, idx+1, item)   # SHOULDN'T GO BACK PREV elem
+                self.helper_2way(nums, target, i, item)
+                item.pop()
+                target += nums[i]
+        """
+        if idx == len(nums):
+            return
+        if target-nums[idx] == 0:
+            self.res.append(item.copy())    # FAILED when 7 is last elem 
+            return
+        # self.helper_2way(nums, target-nums[idx], idx+1, item+[nums[idx]]) 
+        self.helper_2way(nums, target, idx+1, item)
+        """
+        
     def helper(self, nums, target, i_start, sum_, item):    
         # idx means starting positin in for loop in next recursion
         if sum_ == target:
@@ -76,8 +104,43 @@ class Solution:
         
         for i in range(i_start, len(nums)):
             item += [nums[i]]
-            self.helper(nums, target, i, sum_+nums[i], item)    # 同位置可重覆選，所以用i            
+            self.helper(nums, target, i, sum_+nums[i], item)    # 同位置可重覆選，所以用i
             item.pop()
-                    
+            
+            # item += []
+            # self.helper(nums, target, i, sum_+nums[i], item)
+    
+    
+#     def combinationSum_old(self, candidates: List[int], target: int) -> List[List[int]]:
+#         if not candidates: 
+#             return []
+#         self.result = []
+#         # self.counters = {}
+#         l = sorted(candidates, key=lambda val: val)
+#         self.helper(l, 0, target, [], 0)
+        
+#         return self.result
+
+#     '''
+    
+#     '''
+#     def helper(self, l, idx, rem, item, level):
+#         if rem == 0:
+#             self.result.append(item.copy())
+#             return
+#         if idx == len(l) or rem < l[idx] or rem < 0:
+#             return
+        
+#         # 2 3 6 7     7               2
+#         elem = l[idx]
+#         item.append(elem)
+#         rem -= elem
+#         # if rem < elem:        SHOULDN'T TRUNCATE HERE 
+#         #     return      #1 < 2       2 2 
+#         self.helper(l, idx, rem, item, level+1)
+#         item.pop()
+#         rem += elem
+#         self.helper(l, idx+1, rem, item, level+1)
+                            
 # @lc code=end
 
