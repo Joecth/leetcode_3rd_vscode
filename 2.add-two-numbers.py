@@ -44,6 +44,7 @@ class Solution:
         if not l2: return l1
         return self.helper_clean(l1, l2)
 
+    # update again
     def helper_clean(self, l1, l2):
         cur = dummy = ListNode(0)
         carry = 0

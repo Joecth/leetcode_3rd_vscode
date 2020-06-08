@@ -37,6 +37,47 @@
 # @lc code=start
 class Solution:
     def isHappy(self, n: int) -> bool:
+        # return self.O_N(n)
+        return self.O_1(n)
+    
+    def O_1(self, n):
+        fast = slow = n
+        while slow != 1 and fast != 1:
+            slow = self.get_next(slow)
+            fast = self.get_next(self.get_next(fast))
+            if slow == fast:
+                break
+        # print(slow, fast)
+        if slow == 1 or fast == 1:
+            return True
+        return False
+        
+    def get_next(self, n):
+        res = 0
+        while n > 0:
+            digit = n % 10
+            res += digit * digit
+            n //= 10    
+        return res
+    
+    def O_N(self, n):
+        seen = set()
+        while n != 1:
+            n = self.bf(n)
+            if n in seen:
+                return False
+            seen.add(n)
+        return True
+    
+    def bf(self, n):
+        res = 0
+        while n > 0:
+            digit = n % 10
+            res += digit * digit
+            n //= 10
+        return res
+    
+    def isHappy_old(self, n: int) -> bool:        
         d = {}
         s = 0
         while n > 0:
@@ -52,6 +93,8 @@ class Solution:
                     break
                 d[s] = ''
                 n, s = s, 0
-        return False        
+        return False
+            
+        
 # @lc code=end
 
