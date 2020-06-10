@@ -33,13 +33,15 @@
 #
 
 # @lc code=start
-from collections import Counter
 class Solution:
     def firstUniqChar(self, s: str) -> int:
-        d = Counter(s)
-        # for k in d.keys():
+        d = {}
+        for ch in s:
+            d[ch] = d.get(ch, 0) + 1
+        
         for i in range(len(s)):
-            if d[s[i]] <= 1:
+            ch = s[i]
+            if d[ch] == 1:
                 return i
         return -1
 # // Time complexity : O(N) since we go through the string of length N two times.
