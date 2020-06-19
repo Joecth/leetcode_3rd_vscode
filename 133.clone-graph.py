@@ -102,20 +102,60 @@ class Node:
         self.val = val
         self.neighbors = neighbors
 """
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = []):
+        self.val = val
+        self.neighbors = neighbors
+"""
 from collections import deque, OrderedDict
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node: 
             return node
-        self.visited = {}
-        return self.helper(node)
-        # return self.dfs(node)
-    
-    def dfs(self, root):
-        if root not in self.visited:
-            root_N = Node(root.val)
+        # return self.helper(node)
+        return self.expanding_all_nodes(node)
+        
+    def expanding_all_nodes(self, node):
+        # write your code here
+        Q = collections.deque()
+        Q.append(node)
+        visited = set()
+        # visited[node] = UndirectedGraphNode(node.val)
+        visited.add(node)
+        all_nodes = []
+        while Q:
+            now = Q.popleft()
+            all_nodes.append(now)
+            for nbr in now.neighbors:
+                if nbr not in visited:
+                    Q.append(nbr)
+                    visited.add(nbr)
+        
+        # for cur in all_nodes:
+        #     print(cur.val)
+        
+        old2new = {}
+        for now in all_nodes:
+            old2new[now] = Node(now.val)
             
-            self.visited[root] = root_N
+        # 3. 
+        for now in all_nodes:
+            for nbr in now.neighbors:
+                old2new[now].neighbors.append(old2new[nbr])
+        
+        return old2new[node]
+            
+    
+    
+    def bfs(self, root):
+        
+        Q = collections.deque()
+        seen = {}
+        while Q:
+            node = Q.popleft()
+    
     
     def helper(self, root):
         Q = deque()
@@ -145,6 +185,7 @@ class Solution:
                     visited[nbr_O] = nbr_N
                     Q.append(nbr_O)
                 visited[node].neighbors.append(visited[nbr_O])
-        return root_N        
+                
+        return root_N
 # @lc code=end
 
