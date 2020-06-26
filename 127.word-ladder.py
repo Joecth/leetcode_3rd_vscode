@@ -72,11 +72,134 @@ from collections import deque
 import string
 class Solution:
 # class Solution:
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:   
+        return self.my_again2(beginWord, endWord, wordList)
+        return self.my_BiBFS2(beginWord, endWord, wordList)
         # return self.my_graph_sol_TLE(beginWord, endWord, wordList)
         # return self.my_bfs(beginWord, endWord, wordList)
-        # return self.my_bibfs(beginWord, endWord, wordList)
-        return self.sisi_bibfs(beginWord, endWord, wordList)    # 1) Faster whan one side is much wider; 2) Doesn't depend on ascii_lowercase
+        # return self.my_bibfs(beginWord, endWord, wordList) # 標記顏色法，沒絲絲的方法好
+        # return self.sisi_bibfs(beginWord, endWord, wordList)    # 1) Faster whan one side is much wider; 2) Doesn't depend on ascii_lowercase
+    
+    def my_again2(self, beginWord, endWord, wordList):
+        # https://leetcode-cn.com/problems/word-ladder-ii/solution/ru-guo-ni-fa-xian-kan-bie-ren-de-ti-jie-kan-bu-don/
+        word_set = set(wordList)
+        if endWord not in word_set:
+            return 0
+        
+        level_map = {}
+        word_map = {}
+        Q = collections.deque([beginWord])
+        visited = set()
+        found = False
+        level = 0
+        
+        level_map[beginWord] = 0
+        visited.add(beginWord)
+        
+        while Q:
+            level_size = len(Q)
+            
+            for _ in range(level_size):
+                word = Q.popleft()
+                if word == endWord:
+                    return level+1  # 30% IMPROVEMENT
+                for i in range(len(word)):
+                    for ch in string.ascii_lowercase:
+                        new_word = word[:i] + ch + word[i+1:]
+                        if new_word not in word_set:
+                            continue
+                        
+                        if new_word in word_map:    # parent跟之前的不同；還是幫它建圖，只是不再入隊
+                            word_map[new_word].append(word)
+                        else:
+                            word_map[new_word] = []
+                            word_map[new_word].append(word)
+                        
+                        if new_word in visited:
+                            continue
+                        if new_word == endWord:
+                            found = True
+                            
+                            
+                        level_map[new_word] = level + 1
+                        Q.append(new_word)
+                        visited.add(new_word)
+            level += 1
+        
+        return 0
+        # if not found:
+        #     return 0        
+        # return level_map[endWord] + 1
+    
+    def my_BiBFS2(self, beginWord, endWord, wordList):
+        """ VERSION 0625, SAME as sisi_bibfs """
+        if not beginWord or not endWord:
+            return []
+        
+        """
+        hit --> h*t 
+                    ==> hot --> *ot
+                                    ==> dot --> do*
+                                                    ==> dog --> *og
+                                                                    ==> cog
+                                    ==> lot --> lo*
+                                                    ==> log --> *og
+                                                                    ==> cog
+        """
+
+        word_set = set(wordList)    # for Quick Access later on
+        if endWord not in word_set:
+            return 0
+        # Build Graph
+        map_d = {}  # edges
+        for i in range(len(word_set)):
+            word = wordList[i]
+            for j in range(len(word)):
+                pattern = word[:j] + '*' + word[j+1:]
+                map_d[pattern] = map_d.get(pattern, []) + [word]
+                
+
+        Q = collections.deque()
+        end_Q = collections.deque()
+        distance = {}
+        end_distance = {}
+        
+        Q.append((beginWord, 1))
+        end_Q.append((endWord, 1))
+        distance[beginWord] = 1
+        end_distance[endWord] = 1
+        while Q and end_Q:
+            res = self.bfs2(Q, distance, end_distance, map_d)
+            if res >= 0:
+                # TODO:
+                # pass
+                print('distance: ', distance)
+                print('end_distance: ', end_distance)
+                return res
+            res = self.bfs2(end_Q, end_distance, distance, map_d)
+            if res >= 0:
+                # pass
+                print('distance: ', distance)
+                print('end_distance: ', end_distance)
+                return res
+            print('distance: ', distance)
+            print('end_distance: ', end_distance)
+        return 0
+    
+    
+    def bfs2(self, Q, distance, other_distance, map_d):
+        now_word, now_depth = Q.popleft()
+        for i in range(len(now_word)):
+            pattern = now_word[:i] + "*" + now_word[i+1:]
+            for next_word in map_d.get(pattern, []):
+                if next_word in other_distance:
+                    return now_depth + other_distance[next_word]
+                
+                if next_word not in distance:
+                    Q.append((next_word, now_depth+1))
+                    distance[next_word] = now_depth + 1
+                    
+        return -1
     
     def sisi_bibfs(self, beginWord, endWord, wordList):
         ws = set(wordList)
@@ -106,10 +229,10 @@ class Solution:
         '''
         while Q and end_Q:
             res = self.visitNode(Q, visited, end_visited, map_star)
-            if res > 0:
+            if res >= 0:
                 return res
             res = self.visitNode(end_Q, end_visited, visited, map_star)
-            if res > 0:
+            if res >= 0:
                 return res
         return 0
             
@@ -149,7 +272,7 @@ class Solution:
         while Q:
             for _ in range(len(Q)):
                 cur, color, steps = Q.popleft()
-                print(cur, color)
+                # print(cur, color)
                 for j in range(len(cur)):
                     for ch in string.ascii_lowercase:
                         next_word = cur[:j] + ch + cur[j+1:]
@@ -403,6 +526,6 @@ class Solution:
                         if color != color_m:
                             # return i+m #+1
                             return 2*step + 1
-        return 0                
+        return 0
 # @lc code=end
 
