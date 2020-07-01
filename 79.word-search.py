@@ -58,6 +58,8 @@ class Solution:
         # return self.bfs_old(board, word)
         return self.dfs_main(board, word)   # KEY: no go back & DFS
     
+    # Time: O(N*4^L)
+    # Space: O(L)
     def dfs_main(self, board, word):
         ans = False
         m, n = len(board), len(board[0])
