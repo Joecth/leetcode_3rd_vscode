@@ -35,13 +35,90 @@
 # @lc code=start
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
 class Solution:
     def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        if not root:
+            return root
+        return self.iter_2_stack(root)
+        # return self.iterative(root, res)
+        # self.dfs(root, res)
+        return res
+
+    def dfs(self, root, res):
+        if not root:
+            return 
+        self.dfs(root.left, res)
+        self.dfs(root.right, res)
+        res.append(root.val)
+
+    def iterative(self, root, res):
+        res = []
+        S = []
+        S.append(root)
+        while S:
+            v = S.pop()
+            # res.append(v.val)
+            res.insert(0, v.val)    # X first position, so constant!
+
+            if v.left:
+                S.append(v.left)
+            if v.right:
+                S.append(v.right) 
+        
+        return res
+        # return res[::-1] 
+    
+    def iter_2_stack(self, root):
+        s1 = []
+        s2 = []
+        s1.append(root)
+        while s1:
+            cur = s1.pop()
+            s2.append(cur)
+            
+            if cur.left:
+                s1.append(cur.left)
+            if cur.right:
+                s1.append(cur.right)
+        res = []
+        while s2:
+            cur = s2.pop()
+            res.append(cur.val)
+        return res
+
+#     def postorderTraversal(self, root: TreeNode) -> List[int]:
+#         self.result = []
+#         self.helper(root)
+#         return self.result
+    
+#     def helper(self, node):
+#         if not node:
+#             return 
+        
+#         self.helper(node.left)
+#         self.helper(node.right)
+#         self.result.append(node.val)
+        
+        
+        
+        
+        
+        
+#         if not root:
+#             return []
+        
+#         l = self.postorderTraversal(root.left)
+#         l += self.postorderTraversal(root.right)
+#         l += [root.val]
+        
+#         return l    
+    def postorderTraversal_oldold(self, root: TreeNode) -> List[int]:
         res = []
         if not root:
             return root
