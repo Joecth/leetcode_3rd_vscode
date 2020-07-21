@@ -36,6 +36,33 @@
 // @lc code=start
 class Solution {
     public int subarraySum(int[] nums, int k) {
+        int n = nums.length;
+        int pre_sum[] = new int[n+1];
+        for (int i=1; i < n+1; i++){
+            pre_sum[i] = pre_sum[i-1] + nums[i-1];
+        }
+        // for (int i=0; i<n+1; i++)
+        //     System.out.println(pre_sum[i]);
+        
+        // for i
+        //     for j
+        //         if nums[i] - k == nums[j]:
+        // 0 1 2 3
+        // HashMap<Integer, List> map = new HashMap<>();  # TODO: HOW?
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int count = 0;
+        for (int i=0; i<n+1; i++){
+            if (map.containsKey(pre_sum[i] - k)){
+                count += (int)map.get(pre_sum[i] - k);
+            }
+            // map.put(pre_sum[i], map.getOrDefault(i, 0)+1); ==> BUG
+            map.put(pre_sum[i], map.getOrDefault(pre_sum[i], 0)+1);
+        }
+        
+        return count;
+    }
+
+    public int subarraySum_old(int[] nums, int k) {
         if (nums.length == 0) return 0;
         int prefix_sum = 0;
         int count = 0;

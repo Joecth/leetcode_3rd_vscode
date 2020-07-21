@@ -37,31 +37,57 @@
  */
 
 // @lc code=start
-import java.util.Arrays;
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int[] l = initializeArray(nums.length);
-        for (int i=1; i < nums.length; i++){
+        int n = nums.length;
+        
+        /* 1. L->R */
+        int l[] = new int[n];
+        l[0] = 1;
+        // for (int i=0; i < n; i++){
+        //     l[i] = 1;
+        // }
+        
+        for (int i=1; i < n; i++){
             l[i] = l[i-1] * nums[i-1];
         }
-
-        int[] r = initializeArray(nums.length);
-        for (int j=nums.length-1-1; j >= 0; j--){
-            r[j] = r[j+1] * nums[j+1];
+        
+        /* 2. L<-R */
+        int r[] = new int[n];
+        // for (int i=0; i < n; i++){
+        //     r[i] = 1;
+        // }
+        r[n-1] = 1;
+        for (int i=n-2; i >= 0; i--){
+            r[i] = r[i+1] * nums[i+1];
         }
-
-        int[] res = initializeArray(nums.length);
-        for (int k=0; k < nums.length; k++){
-            res[k] = l[k] * r[k];
+        
+        /* 3 merge */
+        for(int i=0; i < n; i++){
+            l[i] *= r[i];
         }
-        return res;
-    }
-
-    private int[] initializeArray(int n){
-        int[] l = new int[n];
-        Arrays.fill(l, 1);
+            
         return l;
     }
+
+//     public int[] productExceptSelf_old(int[] nums) {
+//         int[] l = initialize_array(nums.length);
+//         for (int i=1; i < nums.length; i++){
+//             l[i] = l[i-1] * nums[i-1];
+//         }
+
+//         int[] r = initialize_array(nums.length);
+//         for (int j=nums.length-1-1; j >= 0; j--){
+//             r[j] = r[j+1] * nums[j+1];
+//         }
+
+//         int[] res = initialize_array(nums.length);
+//         for (int k=0; k < nums.length; k++){
+//             res[k] = l[k] * r[k];
+//         }
+//         return res;
+//     }
+
 }
 // @lc code=end
 

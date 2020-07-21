@@ -34,13 +34,66 @@
 #
 
 # @lc code=start
+"""
+ arr        1 1 1 
+ presum     0 1 2 3     as key
+ idx                    as value
+"""
+
 from collections import defaultdict
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         if not nums: return 0
-        return self.helper_O1(nums, k)
+        # return self.helper_O1(nums, k)
+        return self.helper(nums, k)
     
-
+    def helper(self, nums, k):
+        # subarray sum ==> pre_sum
+        # arr: 1,1,1 ==> pre_sum: 1, 2, 3
+        
+        #     1. PLAN A
+        # for end in n:
+        #     for start in n:
+        #         if pre_sum[end] - pre_sum[start] == k:
+        #             count += 1
+        # return count
+        
+    
+        #     2. PLAN B, Optimization
+        # Even FASTER?!
+        # YES! since for each nums[end], it's searching this value: nums[end]-k
+        # seen = {pre_sum at i: [idx1, idx2, idx3]}
+        # for end in n:
+        #     if nums[end] - k in seen:
+        #         count += len(seen)  ==> WRONG, as j should < end
+        """ 1. build pre_sum """        
+        n = len(nums)
+        # pre_sum = [0] * n   ==> FAILED! need a 0 as an offset
+        # pre_sum[0] = nums[0]
+        pre_sum = [0] * (n+1)
+        for i in range(1, n+1):
+            pre_sum[i] = pre_sum[i-1] + nums[i-1]
+        # print(pre_sum)
+        """ 2. PLAN A, TLE """
+        # count = 0
+        # for end in range(n+1):
+        #     # for start in range(0, n+1):   # BUG when k == 0, CASE: [1], 0
+        #     for start in range(0, end):
+        #         if pre_sum[end] - pre_sum[start] == k:
+        #             # count += end - start
+        #             count += 1
+        # return count
+        
+        """ 3. PLAN B """
+        count = 0
+        from collections import defaultdict
+        d = defaultdict(list)
+        for end in range(n+1):
+            if pre_sum[end] - k in d:
+                count += len(d[pre_sum[end] - k])
+            d[pre_sum[end]].append(end)
+        return count
+    
     def helper_O1(self, nums, k):
         # pre_fix = [0] + [0]*len(nums)
         # for i in range(1, len(pre_fix)):
@@ -86,6 +139,37 @@ class Solution:
                     # print(i, j)
                     ans += 1
 
-        return ans   
+        return ans    
+    
+    def subarraySum_new(self, nums: List[int], k: int) -> int:
+        if not nums: return 0
+        if len(nums) == 1:
+            return int(nums[0] == k)
+        
+        pre_sum = [0] + [0] * len(nums)
+        d = {}
+        for i in range(1, len(pre_sum)):
+            pre_sum[i] += pre_sum[i-1] + nums[i-1]
+            d[pre_sum[i]] = i    
+        print(pre_sum)
+        
+        ans = 0
+        for i in range(len(pre_sum)):
+            if pre_sum[i] - k in pre_sum:
+                ans += 1
+        return ans
+        
+        
+        
+    def subarraySum_(self, nums: List[int], k: int) -> int:
+        prefix = {0:1}
+        total = 0
+        count = 0
+        for i in range(len(nums)):
+            total += nums[i]
+            count += prefix.get(total-k, 0)
+            prefix[total] = prefix.get(total, 0) + 1
+            print(prefix) 
+        return count
 # @lc code=end
 
