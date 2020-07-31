@@ -43,6 +43,36 @@
 # @lc code=start
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
+        # return self.search_old(nums, target)
+        if not nums:
+            return -1
+        n = len(nums)
+        start, end = 0, len(nums)-1
+        while start + 1 < end:
+            # print(start, end)
+            mid = start + (end - start)//2
+            if nums[mid] == target:
+                return mid
+            if nums[mid] > nums[end]:   # long head
+                # if nums[mid] > target:
+                if nums[mid] > target >= nums[start]:
+                    end = mid
+                else:
+                    start = mid
+            else: # nums[mid] < nums[end], long tail
+                # if nums[mid] < target:
+                if nums[mid] < target <= nums[end]:
+                    start = mid
+                else:
+                    end = mid
+        # print(start, end)
+        if nums[start] == target:
+            return start
+        if nums[end] == target:
+            return end
+        return -1
+                
+    def search_old(self, nums: List[int], target: int) -> int:
         if not nums: return -1
         
         lo, hi = 0, len(nums)-1
@@ -61,6 +91,6 @@ class Solution:
                     hi = mid - 1
                 else:
                     lo = mid + 1
-        return -1        
+        return -1
 # @lc code=end
 

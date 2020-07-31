@@ -47,7 +47,6 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
-
 """
            1(5)
          /    \
@@ -62,12 +61,22 @@ Diameter: summation of left height and right height
 
 class Solution:
     def diameterOfBinaryTree(self, root: TreeNode) -> int:
-        
-        # self.ans = 0
+        # method 1.
         self.g_max = 0
-        self.dfs(root)
-        # self.helper(root)
-        return self.g_max # update on 05/13
+        # self.dfs(root)
+        # return self.g_max
+        return self.helper9(root)[0]
+        
+    def helper9(self, root):
+        if not root:
+            return [0, 0]
+        max_dia_left, max_chain_left = self.helper9(root.left)
+        max_dia_right, max_chain_right = self.helper9(root.right)
+        
+        max_dia = max(max_dia_left, max_dia_right, max_chain_left+max_chain_right)
+        max_chain = max(max_chain_left, max_chain_right) + 1
+        
+        return max_dia, max_chain
     
     def dfs(self, root):
         if not root:
@@ -79,12 +88,10 @@ class Solution:
         R_dia = self.dfs(root.right)
         self.g_max = max(self.g_max, L_dia+R_dia)
         return max(L_dia, R_dia) + 1    # CAUTIOUS! 這個不是答案，上一行才是
-
-
+    
     def helper(self, root):
         if not root:
             return
-        
         def height(root):
             if not root:
                 return 0
@@ -105,5 +112,102 @@ class Solution:
         self.helper(root.left)
         self.helper(root.right)
         
+#         self.g_max = 0
+#         self.helper(root)
+        
+#         return self.g_max
+        
+        
+#     def helper(self, root):
+#         if not root:
+#             return 0
+        
+        
+#         L_height = self.height(root.left)
+#         R_height = self.height(root.right)
+#         diameter = L_height + R_height
+        
+#         L_sub_diameter = self.helper(root.left)
+#         R_sub_diameter = self.helper(root.right)
+        
+#         cur_max = max(diameter, L_sub_diameter, R_sub_diameter) # shouldn't be passed to ROOT
+#         self.g_max = max(self.g_max, cur_max)
+        
+#         return max(L_sub_diameter, R_sub_diameter)
+        
+        
+        
+        
+        
+    
+#     def diameterOfBinaryTree_old(self, root: TreeNode) -> int:            
+#         self.g_max = 0
+#         self.helper(root)
+#         return self.g_max
+#     # return height and calculate dia at root
+#     def helper_old(self, root):
+#         # if not root:
+#         if not root:
+#             return 0
+        
+#         # L_diameter = self.helper(root.left)
+#         # R_diameter = self.helper(root.right)
+        
+#         L_height = self.height(root.left)
+#         R_height = self.height(root.right)
+#         # diameter = L_height + R_height + 1
+#         diameter = L_height + R_height
+#         # self.g_max = max(self.g_max, diameter)
+        
+#         L = self.helper(root.left)
+#         R = self.helper(root.right)
+#         self.g_max = max(self.g_max, diameter, L, R)
+#         # return 1 + max(L_height, R_height)        
+#         return diameter
+        
+#     def height(self, root):
+#         if not root:
+#             return 0
+#         L = self.height(root.left)  
+#         R = self.height(root.right)
+#         return 1 + max(L, R)
+        
+    
+#     # Wrong !!!
+# #     def diameterOfBinaryTree(self, root: TreeNode) -> int:
+# #         if not root:
+# #             return 0
+# #         res = 0
+        
+# #         if root.left:
+# #             self.g_max = 0
+# #             self.helper(root.left, 0)
+# #             res += 1
+# #             res += self.g_max
+# #         if root.right:
+# #             self.g_max = 0
+# #             self.helper(root.right, 0)
+# #             res += 1
+# #             res += self.g_max
+        
+# #         return res
+        
+# #     def helper(self, root, dmtr=0):
+# #         # dmtr = 0
+# #         if not root.left and not root.right:
+# #             if dmtr > self.g_max:
+# #                 self.g_max = dmtr
+        
+        
+# #         if root.left:
+# #             dmtr += 1
+# #             self.helper(root.left, dmtr)    # 2 
+# #             dmtr -= 1   # 1
+            
+# #         if root.right:
+# #             dmtr += 1   # 1+1
+# #             self.helper(root.right, dmtr)   # 2 
+# #             dmtr -= 1
+                    
 # @lc code=end
 
